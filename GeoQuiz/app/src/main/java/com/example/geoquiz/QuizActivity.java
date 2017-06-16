@@ -17,6 +17,7 @@ public class QuizActivity extends AppCompatActivity {
     private Button mBackButton;
     private TextView mQuestionTextView;
     private static final String TAG = "QuizActivity";
+    private static final String KEY_INDEX = "index";
 
     private Question[] mQuestionBank = new Question[]
             {
@@ -38,6 +39,10 @@ public class QuizActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quiz);
 
+        if (savedInstanceState != null) {
+            mCurrentIndex = savedInstanceState.getInt(KEY_INDEX,0);
+        }
+
         mQuestionTextView = (TextView)
                 findViewById(R.id.question_text_view);
         int question =
@@ -52,6 +57,7 @@ public class QuizActivity extends AppCompatActivity {
         mTrueButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                alreadyAnswered();
                 checkAnswer(true);
             }
         });
@@ -59,6 +65,7 @@ public class QuizActivity extends AppCompatActivity {
         mFalseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                alreadyAnswered();
                 checkAnswer(false);
             }
         });
@@ -83,6 +90,7 @@ public class QuizActivity extends AppCompatActivity {
         mQuestionTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 mCurrentIndex = (mCurrentIndex + 1) % mQuestionBank.length;
                 updateQuestion();
             }
@@ -91,8 +99,15 @@ public class QuizActivity extends AppCompatActivity {
         updateQuestion();
 
     }
+    private void alreadyAnswered() {
+        mQuestionBank[mCurrentIndex].setAnswered();
+    }
 
     private void updateQuestion() {
+        if(mQuestionBank[mCurrentIndex].getisAnswered()) {
+            mFalseButton.setClickable(false);
+            mTrueButton.setClickable(false);
+        }
         int question = mQuestionBank[mCurrentIndex].getTextResId();
         mQuestionTextView.setText(question);
     }
@@ -135,5 +150,12 @@ public class QuizActivity extends AppCompatActivity {
     public void onDestroy() {
         super.onDestroy();
         Log.d(TAG, "onDestroy() called");
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        super.onSaveInstanceState(savedInstanceState);
+        Log.i(TAG,"onSaveInstanceState");
+        savedInstanceState.putInt(KEY_INDEX,mCurrentIndex);
     }
 }

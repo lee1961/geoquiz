@@ -44,6 +44,7 @@
             android:layout_height="wrap_content"
             android:text="@string/back_button"
             android:drawableRight="@drawable/arrow_left"
+            android:layout_gravity="bottom|left"
             android:drawablePadding="4dp"/>
     <Button
         android:id="@+id/next_button"

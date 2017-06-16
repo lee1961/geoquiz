@@ -7,10 +7,12 @@ package com.example.geoquiz;
 public class Question {
     private int mTextResId;
     private boolean mAnswerTrue;
+    private boolean isAnswered;
 
     public Question(int textResId, boolean answerTrue) {
         this.mAnswerTrue = answerTrue;
         this.mTextResId = textResId;
+        this.isAnswered = false;
     }
 
     public int getTextResId() {
@@ -27,5 +29,12 @@ public class Question {
 
     public void setAnswerTrue(boolean answerTrue) {
         mAnswerTrue = answerTrue;
+    }
+
+    public void setAnswered() {
+        this.isAnswered = true;
+    }
+    public boolean getisAnswered() {
+        return this.isAnswered;
     }
 }
