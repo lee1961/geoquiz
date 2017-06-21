@@ -16,7 +16,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".CrimActivity">
+        <activity android:name=".CrimeActivity">
 
         </activity>
     </application>
